@@ -67,7 +67,6 @@ public function show(Blog $blog)
 {
     /// dengan menggunakan resource, kita bisa memanfaatkan model sebagai parameter
     /// berdasarkan id yang dipilih
-    /// href="{{ route('posts.show',$post->id) }}
     return view('blog.show',compact('blog'));
 }
 /**
@@ -153,4 +152,14 @@ public function destroy($id)
   }
 }
 
+public function search(Request $request)
+{
+    $keyword = $request->search;
+    $blogs = Blog::where('title', 'like', "%" . $keyword . "%")->paginate(5);
+    return view('blog.index', compact('blogs'))->with('i', (request()->input('page', 1) - 1) * 5);
 }
+
+
+
+}
+
